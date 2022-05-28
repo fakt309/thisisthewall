@@ -1,0 +1,32 @@
+{
+  "name": "newstoimage",
+  "version": "1.0.0",
+  "description": "get news around the world convert to image",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "news": "node cron/news.js",
+    "daily": "node cron/daily.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vgaidadei/newstoimage.git"
+  },
+  "keywords": [
+    "news",
+    "image"
+  ],
+  "author": "Gaidadei Vladimir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vgaidadei/newstoimage/issues"
+  },
+  "homepage": "https://github.com/vgaidadei/newstoimage#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "canvas": "^2.9.1",
+    "express": "^4.18.1",
+    "jimp": "^0.16.1",
+    "natural": "^5.2.2"
+  }
+}
