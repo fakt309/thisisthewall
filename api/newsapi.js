@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 const natural = require('natural');
 
-const { newsapiKey: API_KEY } = require('./config');
+const { newsapiKey: API_KEY } = require('../config');
 
 const getNominative = (string) => {
   string = string.split(' ')

@@ -1,6 +1,6 @@
 const axios = require("axios").default;
 
-const { pexelsKey: API_KEY } = require('./config');
+const { pexelsKey: API_KEY } = require('../config');
 
 const getDateByWeek = (month, count, dayOfWeek) => {
   let c = 1;
