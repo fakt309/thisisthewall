@@ -19,6 +19,13 @@ Also you can specify resolution in query parameters (default 1920x1080):
 - `...?resolution=1k` - get image with resolution 1280x720
 - `...?resolution=2k` - get image with resolution 1920x1080
 
+Update database:
+
+- `/refresh/daily?key=API_KEY` - update default and holidays images need request 1 time every day
+- `/refresh/news?key=API_KEY` - update news images recommend request 1 time every 2 hour
+
+*You can use cron to send this http requests*
+
 Examples:
 
 `/api/us?resolution=1k`, `/api/ru`, `api?resolution=2k`
