@@ -21,7 +21,7 @@ module.exports = async () => {
       await insert(mongo, 'news/world/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
       console.log('insert news world 2k ...');
       await insert(mongo, 'news/world/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
-    } if (meta.source === url) {
+    } else if (meta.source === url) {
       console.log('cleaning news world ...');
       await remove(mongo, 'news/world/1k');
       await remove(mongo, 'news/world/2k');
@@ -49,7 +49,7 @@ module.exports = async () => {
       await insert(mongo, 'news/us/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
       console.log('insert news us 2k ...');
       await insert(mongo, 'news/us/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
-    } if (meta.source === url) {
+    } else if (meta.source === url) {
       console.log('cleaning news us ...');
       await remove(mongo, 'news/us/1k');
       await remove(mongo, 'news/us/2k');
@@ -77,7 +77,7 @@ module.exports = async () => {
       await insert(mongo, 'news/ru/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
       console.log('insert news ru 2k ...');
       await insert(mongo, 'news/ru/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
-    } if (meta.source === url) {
+    } else if (meta.source === url) {
       console.log('cleaning news ru ...');
       await remove(mongo, 'news/ru/1k');
       await remove(mongo, 'news/ru/2k');
