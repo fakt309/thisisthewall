@@ -15,7 +15,7 @@ module.exports = async () => {
   url = await newsapi('world');
   console.log(url);
   if (url !== null) {
-    meta = getMeta(mongo, 'news/world/1k');
+    meta = await getMeta(mongo, 'news/world/1k');
     if (meta === null) {
       console.log('insert news world 1k ...');
       await insert(mongo, 'news/world/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
@@ -43,7 +43,7 @@ module.exports = async () => {
   url = await newsapi('us');
   console.log(url);
   if (url !== null) {
-    meta = getMeta(mongo, 'news/us/1k');
+    meta = await getMeta(mongo, 'news/us/1k');
     if (meta === null) {
       console.log('insert news us 1k ...');
       await insert(mongo, 'news/us/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
@@ -71,7 +71,7 @@ module.exports = async () => {
   url = await newsapi('ru');
   console.log(url);
   if (url !== null) {
-    meta = getMeta(mongo, 'news/ru/1k');
+    meta = await getMeta(mongo, 'news/ru/1k');
     if (meta === null) {
       console.log('insert news ru 1k ...');
       await insert(mongo, 'news/ru/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
