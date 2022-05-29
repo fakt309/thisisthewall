@@ -211,7 +211,7 @@ module.exports = async (holiday) => {
   if (holiday === 'default') {
     word = default_list[Math.floor(Math.random()*default_list.length)]
   } else {
-    word = getHoliday(holiday)
+    word = getHoliday(holiday);
     if (word === null) return new Promise(resolve => resolve(null));
   }
 

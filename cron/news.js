@@ -1,76 +1,103 @@
+const connect = require('../db/connect');
 const newsapi = require("../api/newsapi.js");
-const setImages = require('../actions/setImages.js');
-const getMeta = require('../actions/getMeta.js');
-const clearImages = require('../actions/clearImages.js');
+const standardize = require('../actions/standardize');
+const insert = require('../db/insert');
+const getMeta = require('../db/getMeta');
+const remove = require('../db/remove');
 
 module.exports = async () => {
-  let url, meta
 
-  console.log('setting world news ...');
+  const mongo = await connect();
+
+  let url, picture, meta;
+
+  console.log('getting news world ...');
   url = await newsapi('world');
   console.log(url);
   if (url !== null) {
-    meta = await getMeta('news/world');
-    if (meta !== null) {
-      if (meta.src === url) {
-        console.log('clear world news ...');
-        await clearImages('news/world');
-      } else {
-        console.log('load world news ...');
-        await setImages(url, 'news/world');
-      }
-    } else {
-      console.log('load world news ...');
-      await setImages(url, 'news/world');
+    meta = getMeta(mongo, 'news/world/1k');
+    if (meta === null) {
+      console.log('insert news world 1k ...');
+      await insert(mongo, 'news/world/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
+      console.log('insert news world 2k ...');
+      await insert(mongo, 'news/world/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
+    } if (meta.source === url) {
+      console.log('cleaning news world ...');
+      await remove(mongo, 'news/world/1k');
+      await remove(mongo, 'news/world/2k');
+    } else if (meta.source !== url) {
+      await remove(mongo, 'news/world/1k');
+      await remove(mongo, 'news/world/2k');
+      console.log('insert news world 1k ...');
+      await insert(mongo, 'news/world/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
+      console.log('insert news world 2k ...');
+      await insert(mongo, 'news/world/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
     }
   } else {
-    console.log('clear world news ...');
-    await clearImages('news/world');
+    console.log('cleaning news world ...');
+    await remove(mongo, 'news/world/1k');
+    await remove(mongo, 'news/world/2k');
   }
 
-  console.log('setting us news ...');
+  console.log('getting news us ...');
   url = await newsapi('us');
   console.log(url);
   if (url !== null) {
-    meta = await getMeta('news/us');
-    if (meta !== null) {
-      if (meta.src === url) {
-        console.log('clear us news ...');
-        await clearImages('news/us');
-      } else {
-        console.log('load us news ...');
-        await setImages(url, 'news/us');
-      }
-    } else {
-      console.log('load us news ...');
-      await setImages(url, 'news/us');
+    meta = getMeta(mongo, 'news/us/1k');
+    if (meta === null) {
+      console.log('insert news us 1k ...');
+      await insert(mongo, 'news/us/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
+      console.log('insert news us 2k ...');
+      await insert(mongo, 'news/us/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
+    } if (meta.source === url) {
+      console.log('cleaning news us ...');
+      await remove(mongo, 'news/us/1k');
+      await remove(mongo, 'news/us/2k');
+    } else if (meta.source !== url) {
+      await remove(mongo, 'news/us/1k');
+      await remove(mongo, 'news/us/2k');
+      console.log('insert news us 1k ...');
+      await insert(mongo, 'news/us/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
+      console.log('insert news us 2k ...');
+      await insert(mongo, 'news/us/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
     }
   } else {
-    console.log('clear us news ...');
-    await clearImages('news/us');
+    console.log('cleaning news us ...');
+    await remove(mongo, 'news/us/1k');
+    await remove(mongo, 'news/us/2k');
   }
 
-  console.log('setting ru news ...');
+  console.log('getting news ru ...');
   url = await newsapi('ru');
   console.log(url);
   if (url !== null) {
-    meta = await getMeta('news/ru');
-    if (meta !== null) {
-      if (meta.src === url) {
-        console.log('clear ru news ...');
-        await clearImages('news/ru');
-      } else {
-        console.log('load ru news ...');
-        await setImages(url, 'news/ru');
-      }
-    } else {
-      console.log('load ru news ...');
-      await setImages(url, 'news/ru');
+    meta = getMeta(mongo, 'news/ru/1k');
+    if (meta === null) {
+      console.log('insert news ru 1k ...');
+      await insert(mongo, 'news/ru/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
+      console.log('insert news ru 2k ...');
+      await insert(mongo, 'news/ru/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
+    } if (meta.source === url) {
+      console.log('cleaning news ru ...');
+      await remove(mongo, 'news/ru/1k');
+      await remove(mongo, 'news/ru/2k');
+    } else if (meta.source !== url) {
+      await remove(mongo, 'news/ru/1k');
+      await remove(mongo, 'news/ru/2k');
+      console.log('insert news ru 1k ...');
+      await insert(mongo, 'news/ru/1k', Buffer.from(await standardize(url, '1k'), 'base64'), url);
+      console.log('insert news ru 2k ...');
+      await insert(mongo, 'news/ru/2k', Buffer.from(await standardize(url, '2k'), 'base64'), url);
     }
   } else {
-    console.log('clear ru news ...');
-    await clearImages('news/ru');
+    console.log('cleaning news ru ...');
+    await remove(mongo, 'news/ru/1k');
+    await remove(mongo, 'news/ru/2k');
   }
+
+  mongo.close();
+
+  console.log('-----------------');
 
   return new Promise(res => res());
 }

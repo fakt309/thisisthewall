@@ -1,3 +1,23 @@
+// const connect = require('./db/connect');
+// const pexels = require('./api/pexels');
+// const standardize = require('./actions/standardize');
+// const insert = require('./db/insert');
+// const getMeta = require('./db/getMeta');
+// const remove = require('./db/remove');
+// const getImage = require('./db/getImage');
+// const ttest = async () => {
+//   const mongodb = await connect();
+//   // const url = await pexels('default');
+//   // const picture = Buffer.from(await standardize(url, '1k'), 'base64');
+//   // await insert(mongodb, 'default/1k', picture, url);
+//   // const meta = await getMeta(mongodb, 'default/2k');
+//   // console.log(meta);
+//   // await remove(mongodb, 'default/1k')
+//   // console.log(await getImage(mongodb, 'default/1k'))
+//   mongodb.close();
+// }
+// ttest();
+
 const express = require('express');
 const url = require('url');
 const fs = require('fs').promises;
@@ -5,6 +25,9 @@ const path = require('path');
 
 const cronNews = require('./cron/news.js');
 const cronDaily = require('./cron/daily.js');
+
+const connect = require('./db/connect');
+const getImage = require('./db/getImage');
 
 const app = express();
 
@@ -28,60 +51,69 @@ const testApiKey = (link) => {
 app.use(express.static(path.join(__dirname, 'resources')));
 
 app.get('/api', async (req, res) => {
+
+  const mongo = await connect();
+
   const resolution = getResolution(req.url);
 
-  try {
-    await fs.stat(path.join(__dirname, `/resources/news/world/${resolution}.png`));
-    res.sendFile(path.join(__dirname, `/resources/news/world/${resolution}.png`));
-    return new Promise(res => res());
-  } catch (e) {
-    try {
-      await fs.stat(path.join(__dirname, `/resources/holiday/world/${resolution}.png`));
-      res.sendFile(path.join(__dirname, `/resources/holiday/world/${resolution}.png`));
-      return new Promise(res => res());
-    } catch (e) {
-      res.sendFile(path.join(__dirname, `/resources/default/${resolution}.png`));
-      return new Promise(res => res());
-    }
-  }
+  let picture;
+
+  if (picture = await getImage(mongo, `news/world/${resolution}`)) {
+  } else if (picture = await getImage(mongo, `holiday/world/${resolution}`)) {
+  } else if (picture = await getImage(mongo, `default/${resolution}`)) {}
+
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': picture.length
+  });
+  res.end(picture);
+
+  mongo.close();
+
 });
 
 app.get('/api/us', async (req, res) => {
+
+  const mongo = await connect();
+
   const resolution = getResolution(req.url);
 
-  try {
-    await fs.stat(path.join(__dirname, `/resources/news/us/${resolution}.png`));
-    res.sendFile(path.join(__dirname, `/resources/news/us/${resolution}.png`));
-    return new Promise(res => res());
-  } catch (e) {
-    try {
-      await fs.stat(path.join(__dirname, `/resources/holiday/us/${resolution}.png`));
-      res.sendFile(path.join(__dirname, `/resources/holiday/us/${resolution}.png`));
-      return new Promise(res => res());
-    } catch (e) {
-      res.sendFile(path.join(__dirname, `/resources/default/${resolution}.png`));
-      return new Promise(res => res());
-    }
-  }
+  let picture;
+
+  if (picture = await getImage(mongo, `news/us/${resolution}`)) {
+  } else if (picture = await getImage(mongo, `holiday/us/${resolution}`)) {
+  } else if (picture = await getImage(mongo, `default/${resolution}`)) {}
+
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': picture.length
+  });
+  res.end(picture);
+
+  mongo.close();
+
 });
 
 app.get('/api/ru', async (req, res) => {
+
+  const mongo = await connect();
+
   const resolution = getResolution(req.url);
 
-  try {
-    await fs.stat(path.join(__dirname, `/resources/news/ru/${resolution}.png`));
-    res.sendFile(path.join(__dirname, `/resources/news/ru/${resolution}.png`));
-    return new Promise(res => res());
-  } catch (e) {
-    try {
-      await fs.stat(path.join(__dirname, `/resources/holiday/ru/${resolution}.png`));
-      res.sendFile(path.join(__dirname, `/resources/holiday/ru/${resolution}.png`));
-      return new Promise(res => res());
-    } catch (e) {
-      res.sendFile(path.join(__dirname, `/resources/default/${resolution}.png`));
-      return new Promise(res => res());
-    }
-  }
+  let picture;
+
+  if (picture = await getImage(mongo, `news/ru/${resolution}`)) {
+  } else if (picture = await getImage(mongo, `holiday/ru/${resolution}`)) {
+  } else if (picture = await getImage(mongo, `default/${resolution}`)) {}
+
+  res.writeHead(200, {
+    'Content-Type': 'image/png',
+    'Content-Length': picture.length
+  });
+  res.end(picture);
+
+  mongo.close();
+
 });
 
 app.get('/refresh/daily', async (req, res) => {
