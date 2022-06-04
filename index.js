@@ -90,7 +90,11 @@ app.get('/api/us', async (req, res) => {
 
   res.writeHead(200, {
     'Content-Type': 'image/png',
-    'Content-Length': picture.length
+    'Content-Length': picture.length,
+    "X-Frame-Options": "ALLOWALL",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
   });
   res.end(picture);
 
@@ -112,7 +116,11 @@ app.get('/api/ru', async (req, res) => {
 
   res.writeHead(200, {
     'Content-Type': 'image/png',
-    'Content-Length': picture.length
+    'Content-Length': picture.length,
+    "X-Frame-Options": "ALLOWALL",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
   });
   res.end(picture);
 
