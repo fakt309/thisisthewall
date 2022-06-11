@@ -1,0 +1,31 @@
+<svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+
+  <path
+    stroke="#2b2a30"
+    stroke-width="2"
+    fill="transparent"
+    stroke-linecap="round"
+    d="M 5 25
+    C 5 25, 13 12, 13 12"></path>
+  <path
+    stroke="#2b2a30"
+    stroke-width="2"
+    fill="transparent"
+    stroke-linecap="round"
+    d="M 13 12
+    C 13 12, 21 25, 21 25"></path>
+  <path
+    stroke="#2b2a30"
+    stroke-width="2"
+    fill="transparent"
+    stroke-linecap="round"
+    d="M 21 25
+    C 21 25, 5 25, 5 25"></path>
+  <circle
+    cx="22"
+    cy="8"
+    r="5"
+    fill="#2b2a30"
+    ></circle>
+
+</svg>
