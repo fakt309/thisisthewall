@@ -58,8 +58,18 @@ const testApiKey = (link) => {
 app.use(express.static(path.join(__dirname, 'resources')));
 
 app.get('/', async (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(JSON.stringify({ message: 'use /api to get image' }));
+
+  const answer = JSON.stringify({ message: 'use /api to get image' });
+
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Content-Length': answer.length,
+    "X-Frame-Options": "ALLOWALL",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET",
+    "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+  });
+  res.end(answer);
 });
 
 app.get('/api', async (req, res) => {
