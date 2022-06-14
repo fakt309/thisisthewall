@@ -31,6 +31,13 @@ const getImage = require('./db/getImage');
 
 const app = express();
 
+let mongo = false;
+
+const init = async () => {
+  mongo = await connect();
+}
+init();
+
 const { updateKey: API_KEY } = require('./config');
 
 const getResolution = (link) => {
@@ -52,7 +59,12 @@ app.use(express.static(path.join(__dirname, 'resources')));
 
 app.get('/api', async (req, res) => {
 
-  const mongo = await connect();
+  if (!mongo) {
+    res.send();
+    return
+  }
+
+  // const mongo = await connect();
 
   const resolution = getResolution(req.url);
 
@@ -72,13 +84,18 @@ app.get('/api', async (req, res) => {
   });
   res.end(picture);
 
-  mongo.close();
+  // mongo.close();
 
 });
 
 app.get('/api/us', async (req, res) => {
 
-  const mongo = await connect();
+  if (!mongo) {
+    res.send();
+    return
+  }
+
+  // const mongo = await connect();
 
   const resolution = getResolution(req.url);
 
@@ -98,13 +115,18 @@ app.get('/api/us', async (req, res) => {
   });
   res.end(picture);
 
-  mongo.close();
+  // mongo.close();
 
 });
 
 app.get('/api/ru', async (req, res) => {
 
-  const mongo = await connect();
+  if (!mongo) {
+    res.send();
+    return
+  }
+
+  // const mongo = await connect();
 
   const resolution = getResolution(req.url);
 
@@ -124,7 +146,7 @@ app.get('/api/ru', async (req, res) => {
   });
   res.end(picture);
 
-  mongo.close();
+  // mongo.close();
 
 });
 
