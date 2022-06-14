@@ -57,6 +57,11 @@ const testApiKey = (link) => {
 
 app.use(express.static(path.join(__dirname, 'resources')));
 
+app.get('/', async (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(JSON.stringify({ message: 'use /api to get image' }));
+});
+
 app.get('/api', async (req, res) => {
 
   if (!mongo) {
@@ -151,12 +156,12 @@ app.get('/api/ru', async (req, res) => {
 });
 
 app.get('/refresh/daily', async (req, res) => {
-  if (testApiKey(req.url)) cronDaily();
+  if (testApiKey(req.url)) cronDaily(mongo);
   res.send();
 });
 
 app.get('/refresh/news', async (req, res) => {
-  if (testApiKey(req.url)) cronNews();
+  if (testApiKey(req.url)) cronNews(mongo);
   res.send();
 });
 

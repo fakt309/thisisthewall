@@ -5,9 +5,14 @@ const insert = require('../db/insert');
 const getMeta = require('../db/getMeta');
 const remove = require('../db/remove');
 
-module.exports = async () => {
+module.exports = async (mongo) => {
 
-  const mongo = await connect();
+  if (!mongo) {
+    res.send();
+    return
+  }
+
+  // const mongo = await connect();
 
   let url, picture, meta;
 
@@ -95,7 +100,7 @@ module.exports = async () => {
     await remove(mongo, 'news/ru/2k');
   }
 
-  mongo.close();
+  // mongo.close();
 
   console.log('-----------------');
 
